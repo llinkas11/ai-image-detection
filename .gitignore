@@ -1,0 +1,29 @@
+# raw data never committed
+data/*.dta
+data/*.csv
+data/*.tsv
+data/*.xlsx
+data/*.sav
+data/*.parquet
+survey_responses.csv
+*_responses.csv
+
+# Stata / R / Python clutter
+*.log
+*.smcl
+*.Rhistory
+*.RData
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+
+# PowerPoint autosave backups
+*.pptx.bak
+~$*.pptx
