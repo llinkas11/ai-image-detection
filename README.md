@@ -4,7 +4,7 @@ A Bowdoin College senior project investigating whether people can reliably disti
 
 **Authors:** Maddy Ohta, Lulu Linkas, Seamus Woodruff
 **Course:** DCS 3850 Advanced Data Science, Spring 2026
-**Live site:** *(link to come)*
+**Live site:** *https://seamuswoodruff.github.io/ai-detection/*
 
 ## Headline findings
 
