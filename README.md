@@ -2,7 +2,7 @@
 
 A Bowdoin College senior project investigating whether people can reliably distinguish AI-generated images from real photographs, and which respondent characteristics predict detection ability.
 
-**Authors:** Maddy Ohta, Lulu Linkas, Seamus Woodruff
+**Authors:** Lulu Linkas, Seamus Woodruff, Maddy Ohta
 **Course:** DCS 3850 Advanced Data Science, Spring 2026
 **Live site:** *https://seamuswoodruff.github.io/ai-detection/*
 
