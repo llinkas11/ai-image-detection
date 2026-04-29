@@ -50,7 +50,7 @@ Non-probability convenience sample, recruited through:
 
 Target n = 300. Actual responses collected: 437 (352 fully recorded, 85 in-progress with near-complete data).
 
-## Data cleaning
+## Data filtering
 
 Three-stage filter applied:
 
