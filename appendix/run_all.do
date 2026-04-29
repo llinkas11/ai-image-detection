@@ -66,6 +66,15 @@ log close section_e
 
 
 * ---------------------------------------------------------------------------
+* E.3: cut-point analysis for the faculty subsample (slide 33)
+* ---------------------------------------------------------------------------
+cap log close section_e3
+log using "logs/E3_cut_points.log", text replace name(section_e3)
+do "../cut_point_analysis.do"
+log close section_e3
+
+
+* ---------------------------------------------------------------------------
 * F.1: pooled m2 diagnostics
 * ---------------------------------------------------------------------------
 cap log close section_f1

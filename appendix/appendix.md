@@ -57,9 +57,9 @@ Raw response time is heavily right-skewed; the log transform produces an approxi
 
 ![AI familiarity](_outputs/figs/descriptives/hist_ai_literacy.png){ width=60% }
 
-![AI weekly use time](_outputs/figs/descriptives/hist_ai_use_time.png){ width=60% }
+![AI weekly use time](_outputs/figs/descriptives/pie_ai_use_time.png){ width=60% }
 
-![Social media use time](_outputs/figs/descriptives/hist_social_media_time.png){ width=60% }
+![Social media use time](_outputs/figs/descriptives/pie_social_media_time.png){ width=60% }
 
 ![Average per-question confidence](_outputs/figs/descriptives/hist_avg_conf.png){ width=60% }
 
@@ -167,6 +167,18 @@ The pooled m5 collapses age into a binary `over_25` flag (1 = Faculty/Staff, 0 =
 ```
 
 The headline result: device and AI-exposure coefficients are similar in sign across subsamples. None of the four student class-year coefficients differs significantly from the Senior reference category (all p > 0.18 in m4-equivalent specs).
+
+## E.3 Cut-point analysis (faculty)
+
+Ordered probit estimates k-1 cut points for a k-level outcome. The latent-scale gap between adjacent cut points is the distance respondents must cover to move from one observed score level to the next. If those gaps are equal, the score levels reflect equally-spaced latent ability. If one gap is much larger, that score transition is unusually hard.
+
+In the faculty mf3b specification, the gap between observed scores 7 and 8 (the difference between `/cut7` and `/cut8` in Stata's parameterization) is significantly larger than the other adjacent gaps. Equivalently: for faculty respondents, moving from a 7 to an 8 is the hardest jump on the latent scale. The 9-to-10 jump is also notably large.
+
+The full output (all 9 gap sizes with 95% confidence intervals via `nlcom`, plus pairwise Wald tests of the largest gap against each other gap) is in the captured log:
+
+```text
+{{< include _outputs/logs/E3_cut_points.log >}}
+```
 
 \newpage
 
@@ -343,3 +355,17 @@ The captured log from each section's run, in execution order. Section letters ma
 ```text
 {{< include _outputs/logs/H_count_models.log >}}
 ```
+
+\newpage
+
+## Annex 2.8: cut-point analysis log (faculty)
+
+```text
+{{< include _outputs/logs/E3_cut_points.log >}}
+```
+
+\newpage
+
+# References
+
+The full list of works cited for this study lives on the project website: **https://seamuswoodruff.github.io/ai-detection/**. Citations cover the AI-image-generation models that produced the stimuli, the survey-design literature underpinning the instrument, the ordered-probit methodology references, and the Stata package documentation for `oparallel`, `estout`, and related tools used in this appendix.
