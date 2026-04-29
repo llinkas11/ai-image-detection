@@ -77,4 +77,4 @@ MIT. See `LICENSE`.
 
 ## Contact
 
-For data access requests or methodological questions: llinkas@bowdoin.edu
+For data access requests or methodological questions: llinkas@gmail.com or v.gomezgilyaspik@bowdoin.edu
