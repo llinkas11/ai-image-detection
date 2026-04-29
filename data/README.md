@@ -46,4 +46,4 @@ If reproducing the analysis with access to the raw data, the expected Stata data
 
 ## Requesting access
 
-Researchers may contact the authors to request access to the raw data for academic replication or extension work: llinkas@bowdoin.edu.
+Researchers may contact the authors to request access to the raw data for academic replication or extension work: llinkas@gmail.com or v.gomezgilyaspik@bowdoin.edu.

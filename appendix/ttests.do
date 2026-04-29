@@ -1,24 +1,8 @@
-* T-tests of detection score by device type, run separately for each
-* affiliation cohort and pooled. Reproduces slides 22 and 23 of the
-* presentation deck.
-*
-* Question: does score differ between Mobile and Laptop respondents
-* within each class year and faculty/staff group, and overall?
-*
-* Method: two-sample t-test of score_total grouped by device_type
-* (1 = Laptop, 2 = Mobile phone after the Other-device drop).
-* The within-group t-tests are illustrative; sample sizes per cohort
-* are small and the pooled test is the formal hypothesis test.
-*
-* Assumes the post-filter dataset is in memory from the upstream
-* analysis pipeline (attn_both == 1, Other devices dropped,
-* ln_resp_time within +/- 3 SD of its mean).
-* The variable `score_total` is renamed to `score` upstream;
-* this script uses `score` for clarity.
+* T-tests of detection score by device type within each affiliation
+* cohort and pooled. Within-cohort tests are illustrative; per-cohort
+* n is small. The pooled test is the formal hypothesis test.
 
-display _newline(2) "=========================================="
-display "T-tests: detection score by device type"
-display "=========================================="
+display _newline "T-tests: detection score by device type"
 
 
 * ---------------------------------------------------------------------------

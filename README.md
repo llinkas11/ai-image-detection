@@ -10,13 +10,15 @@ A Bowdoin College senior project investigating whether people can reliably disti
 
 Analytic sample after filtering: **N = 419** (508 starting; 74 dropped on attention checks, 10 on "Other" devices, 5 on log response-time trim). Models that include all AI-exposure predictors (m4, m5) drop 18 more on covariate missingness and report on N = 401.
 
-From the preferred ordered probit specification (m5):
+From the preferred ordered probit specification (**m2**: `score = age + device + gender + race`):
 
-- **Faculty/Staff scored lower than students** (statistically significant)
-- **Mobile users scored lower than laptop users** (negative coefficient, marginal significance)
-- **Self-reported AI familiarity and weekly AI usage did not predict detection score**
+- **Age effect.** Being Faculty/Staff (proxied by `over_25`) is a statistically significant predictor of lower detection scores. Margins at specific outcomes show that being over 25 decreases the probability of scoring 8, 9, or 10 by 3 to 5 percentage points, and increases the probability of scoring 4, 5, or 6 by 1 to 2 percentage points.
+- **Device effect (pooled t-test).** Pooled across all respondents with both attention checks passed, laptop users scored 0.53 points higher than mobile users (highly significant in the t-test).
+- **Device effect (regression with controls).** In the pooled m2 regression, device type is marginally significant overall and the per-outcome margins are not individually significant, indicating the device gap shrinks once age, gender, and race are held constant. In the **student-only** subsample, device type is significant at the top of the score distribution (p < 0.05): using a phone instead of a laptop decreases the probability of scoring 9 or 10 by 3 to 4 percentage points. In the **faculty-only** subsample, device is not statistically significant at any outcome.
+- **AI exposure.** Self-reported AI familiarity, weekly AI usage time, and the **`ai_familiarity x ai_use_time` interaction** are all non-significant. Adding them does not improve fit beyond the demographic controls.
+- **Cut-point structure (faculty).** In the faculty subsample, the cut-point gap between scores 7 and 8 is significantly larger than the other adjacent gaps. The 9 to 10 jump is the hardest for faculty respondents to make.
 
-Direction and magnitude are robust across the eight specifications and after controlling for gender, race, social media time, and log response time. Full coefficient tables are in `results/oprobit_models.csv` and the technical appendix.
+Two things predict score in the pooled regression: being a student rather than faculty, and (in the t-test and student subsample) using a laptop. Self-reported AI exposure does not. Full coefficient tables are in `results/oprobit_models.csv` and the technical appendix.
 
 ## Repository layout
 
@@ -62,6 +64,18 @@ Raw individual-level responses are not included in this repository to protect re
    ssc install oparallel
    ssc install estout
    ```
+
+## Ordered probit assumptions and how we checked each
+
+| Assumption | Check applied | Result |
+|---|---|---|
+| **Ordinal dependent variable.** The outcome must be an ordered categorical variable. | Detection score is an integer count from 0 to 10 with natural ordering (higher = better). | Met by construction. |
+| **Parallel slopes / proportional odds.** The relationship between predictors and the outcome is the same across all cut-points (the effect of x on "low vs medium/high" matches "low/medium vs high"). | Brant, Wolfe-Gould, score, likelihood ratio, and Wald tests via `oparallel` on a 3-level bucketed score (0-5, 6-7, 8-10). Pooled m2 and both subsample specs (mf3b, ms3c) tested. | Not rejected for the pooled m2 (all p > 0.05), the faculty subsample (all p > 0.33), or the student subsample (all p > 0.97). If violated, the alternative is `gologit2` or generalized ordered probit. |
+| **Independence of observations.** Each respondent's score is independent of every other respondent's. | The survey was an anonymous online instrument with no clustering structure (no within-classroom or within-team groups). Cluster-robust standard errors not required, but `vce(robust)` is used throughout for heteroskedasticity. | Met by design. |
+| **No perfect multicollinearity.** Predictors must not be perfectly correlated. | Variance Inflation Factors (VIF) on a parallel OLS of the m2 spec (Stata's `estat vif` is unavailable after MLE). | Mean VIF = 1.26, max = 1.63, all well below the conventional threshold of 5. The structurally inflated VIFs on `c.ai_familiarity##c.ai_use_time` and its components are expected for interaction models and not a concern. |
+| **No separation or quasi-separation.** A predictor must not perfectly predict the outcome. | Cross-tabulations of every categorical predictor against the outcome to check for empty or very small cells. | Two race categories (International, n = 1; Race/ethnicity unknown, n = 2) caused perfect prediction in the bucketed-score `oparallel` test and were collapsed into "Other" before re-running. Final analytic categories all have non-zero cells in every score bucket. |
+
+Full diagnostic output, including the `oparallel` log and VIF table, is in the technical appendix (Section F of `appendix/appendix.docx`).
 
 ## Presentation
 

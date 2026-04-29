@@ -1,7 +1,7 @@
 ---
 title: "AI Detection Study - Appendix"
 subtitle: "Reproducible analysis from data cleaning through robustness checks"
-author: "Maddy Ohta, Lulu Linkas, Seamus Woodruff"
+author: "Lulu Linkas, Seamus Woodruff, Maddy Ohta"
 date: "Spring 2026"
 ---
 
