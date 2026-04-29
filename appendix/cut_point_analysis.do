@@ -1,28 +1,28 @@
-* Cut-point analysis for the faculty subsample (slide 33).
+* Cut-point analysis for the faculty mf3b spec.
 *
 * Ordered probit estimates k-1 cut points for a k-level outcome. The gap
 * between adjacent cut points is the latent-scale distance respondents
 * must cover to move from one observed score level to the next. If the
-* gaps are equal, score levels reflect equally-spaced latent ability;
+* gaps are equal, the score levels reflect equally-spaced latent ability;
 * if one gap is much larger, that score transition is harder.
 *
-* Faculty mf3b has fewer cuts than the pooled model (some score levels
-* were unused in the n=73 faculty subsample), so this script counts the
-* cuts present at runtime and only tests the gaps that exist. Slide 33
-* identifies the gap between /cut7 and /cut8 as the largest one in
-* faculty; we confirm it programmatically by finding the maximum gap.
+* This script computes all adjacent gaps with nlcom, identifies the
+* maximum gap, and Wald-tests it against each other gap. Cut-count is
+* detected at runtime because the faculty subsample uses fewer score
+* levels than the pooled model (some scores have zero respondents in
+* n=73 faculty), and Stata's e(k_cat) reports the nominal level count
+* rather than the count of estimable cut points.
 *
 * Assumes mf3b is in memory from oprobit_regression_by_affiliation.do.
 
 display _newline(2) "=========================================="
-display "E.3 Cut-point analysis: faculty mf3b"
+display "Cut-point analysis: faculty mf3b"
 display "=========================================="
 
 estimates restore mf3b
 
-* Count cut points present in the model. e(b) holds all coefficients
-* including /cut1, /cut2, etc. We probe each candidate name and stop
-* at the first one that doesn't exist.
+* Probe each candidate cut-point name; stop at the first one that doesn't
+* exist. Handles sparse-category collapse where e(k_cat) over-counts.
 local k = 1
 while 1 {
     capture display _b[/cut`k']
@@ -36,7 +36,7 @@ local n_cuts = `k'
 display _newline "Faculty model has " `n_cuts' " cut points (" `n_cuts' - 1 " adjacent gaps)."
 
 
-* Compute all adjacent gaps with nlcom in a loop.
+* Compute all adjacent gaps with nlcom in one pass.
 local gap_args = ""
 forvalues i = 1/`=`n_cuts'-1' {
     local j = `i' + 1
@@ -46,21 +46,14 @@ forvalues i = 1/`=`n_cuts'-1' {
 display _newline "All adjacent cut-point gaps with 95% CIs:"
 nlcom `gap_args'
 
-
-* Identify the largest gap and Wald-test it against each other gap.
-* The argmax across the saved ereturn b gives the index.
-matrix _b_gaps = J(1, `=`n_cuts'-1', 0)
-forvalues i = 1/`=`n_cuts'-1' {
-    local j = `i' + 1
-    matrix _b_gaps[1, `i'] = _b[/cut`j'] - _b[/cut`i']
-}
-
+* Identify the largest gap by scanning r(b) directly (no second pass).
+matrix gaps = r(b)
 local maxgap_idx = 1
-local maxgap_val = _b_gaps[1, 1]
-forvalues i = 2/`=`n_cuts'-1' {
-    if _b_gaps[1, `i'] > `maxgap_val' {
+local maxgap_val = gaps[1, 1]
+forvalues i = 2/`=colsof(gaps)' {
+    if gaps[1, `i'] > `maxgap_val' {
         local maxgap_idx = `i'
-        local maxgap_val = _b_gaps[1, `i']
+        local maxgap_val = gaps[1, `i']
     }
 }
 
@@ -80,7 +73,7 @@ forvalues i = 1/`=`n_cuts'-1' {
 }
 
 
-* Bar chart of the gaps if coefplot is installed
+* Bar chart of the gaps (requires coefplot)
 cap mkdir "figs/cut_points"
 capture which coefplot
 if _rc == 0 {

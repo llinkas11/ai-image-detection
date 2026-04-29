@@ -57,13 +57,20 @@ HERE = Path(__file__).resolve().parent
 INPUT_CSV = HERE / "survey_responses.csv"
 GRAPHICS_JSON = HERE.parent / "survey" / "data" / "graphic_ids.json"
 OUTPUT_CSV = HERE / "AI_DetectionV2.csv"
+SURVEY_DEF_CACHE = HERE / "survey_def_cache.json"
 
 API_TOKEN = os.environ.get("QUALTRICS_API_TOKEN")
 SURVEY_ID = os.environ.get("QUALTRICS_SURVEY_ID", "SV_bQ8cVhMLAvco9bE")
 BASE_URL = "https://bowdoincollege.qualtrics.com/API/v3"
 
+N_IMAGES = 10  # image blocks shown per respondent
+
 
 def fetch_survey_definition() -> dict:
+    # Cached locally because the survey schema is static after the survey
+    # closes. Set REFRESH_SURVEY=1 to force a fresh API fetch.
+    if SURVEY_DEF_CACHE.exists() and not os.environ.get("REFRESH_SURVEY"):
+        return json.loads(SURVEY_DEF_CACHE.read_text())
     if not API_TOKEN:
         sys.exit("QUALTRICS_API_TOKEN not set")
     r = requests.get(
@@ -72,7 +79,9 @@ def fetch_survey_definition() -> dict:
         timeout=120,
     )
     r.raise_for_status()
-    return r.json().get("result", {})
+    result = r.json().get("result", {})
+    SURVEY_DEF_CACHE.write_text(json.dumps(result))
+    return result
 
 
 def block_truth_map(survey_def: dict) -> dict:
@@ -105,17 +114,17 @@ def export_tag(survey_def: dict, qid: str) -> str:
     return q.get("DataExportTag", "")
 
 
+OUTCOME_MAP = {
+    ("2", "fake"): "TP",
+    ("1", "real"): "TN",
+    ("2", "real"): "FP",
+    ("1", "fake"): "FN",
+}
+
+
 def classify(answer: str, truth: str) -> str:
     """answer is "1" (Real) or "2" (AI); truth is 'fake' or 'real'."""
-    if answer == "2" and truth == "fake":
-        return "TP"
-    if answer == "1" and truth == "real":
-        return "TN"
-    if answer == "2" and truth == "real":
-        return "FP"
-    if answer == "1" and truth == "fake":
-        return "FN"
-    return ""
+    return OUTCOME_MAP.get((answer, truth), "")
 
 
 def main() -> None:
@@ -168,7 +177,7 @@ def main() -> None:
                      .startswith("AttentionCheck")]
 
         # Pad to 10 image entries; later columns will be NaN if respondent saw fewer.
-        for i in range(10):
+        for i in range(N_IMAGES):
             if i < len(img_seen):
                 _, outcome, conf, timer = img_seen[i]
                 outcomes[i + 1].append(outcome)
@@ -190,7 +199,7 @@ def main() -> None:
             attn2.append(0)
 
     # Add derived columns
-    for i in range(1, 11):
+    for i in range(1, N_IMAGES + 1):
         df[f"Q{i}"] = outcomes[i]
         df[f"Q{i}Conf"] = confidences[i]
 
@@ -200,12 +209,12 @@ def main() -> None:
     # CalculatedScore = count(TP + TN) across Q1..Q10
     df["CalculatedScore"] = sum(
         (df[f"Q{i}"] == "TP").astype(int) + (df[f"Q{i}"] == "TN").astype(int)
-        for i in range(1, 11)
+        for i in range(1, N_IMAGES + 1)
     )
 
     # AvgAnswTime = mean of the 10 timings (numeric; non-numeric become NaN)
     timing_cols = []
-    for i in range(1, 11):
+    for i in range(1, N_IMAGES + 1):
         col = f"_t{i}"
         df[col] = pd.to_numeric(pd.Series(timings[i]), errors="coerce")
         timing_cols.append(col)
