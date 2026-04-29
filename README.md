@@ -8,7 +8,7 @@ A Bowdoin College senior project investigating whether people can reliably disti
 
 ## Headline findings
 
-From an ordered probit model on N = 419respondents:
+From an ordered probit model on N = 419 respondents:
 
 - **Faculty/Staff scored lower than students** (β = -0.34, p = 0.04)
 - **Mobile users scored lower than laptop users** (β = -0.25, p = 0.03)
