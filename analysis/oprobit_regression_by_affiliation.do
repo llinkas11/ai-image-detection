@@ -6,6 +6,7 @@
 * (needed for post-estimation margins / predict).
 
 * FACULTY/STAFF  (over_25 == 1)
+
 count if over_25 == 1
 display "Faculty/Staff n: " r(N)
 
@@ -33,6 +34,7 @@ estimates store mf5
 estimates stats mf0 mf1b mf3a mf3b mf3c mf4 mf5
 
 * STUDENTS  (over_25 == 0).  Keeps i.affiliation so class-year effects show.
+
 count if over_25 == 0
 display "Student n: " r(N)
 tab affiliation if over_25 == 0

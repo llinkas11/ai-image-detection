@@ -42,7 +42,7 @@ Every analysis script applies the same filter chain:
 4. Collapse sparse race cells (International, Unknown) into Other.
 5. Collapse sparse gender cells (Non-binary, Prefer not to say) into Other.
 
-After filtering, the analytic sample is N = 392 respondents.
+After filtering, the analytic sample is **N = 419** respondents (508 starting; -74 attention check; -10 "Other" device; -5 response-time trim). Models including all AI-exposure covariates run on a further reduced N = 401 due to covariate missingness.
 
 ## Model sequence in oprobit_regression.do
 

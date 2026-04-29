@@ -58,7 +58,14 @@ Three-stage filter applied:
 2. **Device filter**: drop respondents on "Other" devices (n = 9, all iPads). The sample is too small to identify an iPad effect, and keeping only Mobile vs Laptop clarifies the core device contrast.
 3. **Response-time filter**: drop respondents outside +/- 3 SD on log-transformed average response time per image. Log scale is used because raw response times are heavily right-skewed (skew approximately 6), so a raw-scale filter barely cuts anyone while a log-scale filter produces the intended ~0.1 percent tail trim.
 
-Final analytic sample: N = 392.
+Sample size at each step:
+
+- Starting: N = 508
+- After attention check: N = 434
+- After "Other" device drop: N = 424
+- After log response-time trim (+/- 3 SD): **N = 419**
+
+Models that include all predictors (m4, m5, m6) drop additional respondents who are missing on at least one covariate and run on N = 401.
 
 ## Dependent variable
 

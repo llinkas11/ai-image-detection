@@ -25,6 +25,7 @@ use "data/AI_DetectionV3_lite.dta", clear
 rename score_total score
 
 * 1. Dependent variable summary -- confirm approximate normality before oprobit
+
 cap log close sum_prefilter
 log using "figs/score_summary_prefilter.txt", text replace name(sum_prefilter)
 summarize score, detail
@@ -38,13 +39,14 @@ graph export "figs/score_hist.png", replace
 * Apply the attention-check filter FIRST, then compute the timing mean/SD on
 * attention-passing respondents. Otherwise SD is inflated by the same inattentive
 * outliers we're trying to remove, pushing the 3 SD upper bound far too wide.
+
 count
 display "n before filter: " r(N)
 keep if attn_both == 1
 count
 display "n after attention-check filter: " r(N)
 
-* ----- Diagnostic: why raw +/-3 SD is unusable here
+* ----- Diagnostic: why raw +/-3 SD is unusable here 
 * avg_resp_time is very right-skewed, so its SD is dominated by a handful of
 * tail observations. Raw +3 SD lands at ~450s -- it barely cuts anyone, yet
 * the distribution still has multi-minute-per-image responses. Show the raw
@@ -73,7 +75,7 @@ histogram avg_resp_time, ///
     name(h_resp_sdbands_raw, replace)
 graph export "figs/descriptives/hist_avg_resp_time_sdbands.png", replace width(1200)
 
-* ----- Actual filter: +/-3 SD on ln(avg_resp_time)
+* ----- Actual filter: +/-3 SD on ln(avg_resp_time) 
 * Log-transform pulls the right tail in so the distribution is approximately
 * symmetric. +/-3 SD on the log scale then corresponds to the intended ~0.1%
 * tails (whereas raw +/-3 SD corresponds to far looser bounds).
@@ -142,6 +144,7 @@ histogram score, normal xtitle("score (correct out of 10)")
 graph export "figs/score_hist_filtered.png", replace
 
 * 2. Variable lists
+
 * Numerical -- continuous or count measures -> summarize + histogram
 local numvars ///
     duration_min detect_easy ai_literacy ///
@@ -166,6 +169,7 @@ local qconf q1_conf q2_conf q3_conf q4_conf q5_conf ///
             q6_conf q7_conf q8_conf q9_conf q10_conf
 
 * 3. One-shot summary table for all numerical variables
+
 * Produces a compact N / mean / SD / min / max block for the report appendix.
 estpost summarize `numvars', detail
 * If estpost not installed, fall back to plain summarize:
@@ -179,6 +183,7 @@ if _rc {
 }
 
 * 4. Numerical variables -- summarize + histogram
+
 foreach v of local numvars {
     display _newline(2) "{hline 70}"
     display "Variable: `v'"
@@ -192,6 +197,7 @@ foreach v of local numvars {
 }
 
 * 5. Categorical variables -- tabulate + pie chart
+
 foreach v of local catvars {
     display _newline(2) "{hline 70}"
     display "Variable: `v'"
@@ -205,6 +211,7 @@ foreach v of local catvars {
 }
 
 * 6. Pooled per-question outcomes + confidence (not stratified per question)
+
 * Reshape to long (respondent x question) so all 10 questions are pooled into
 * a single distribution: one tab + pie for TP/TN/FP/FN, one summary + histogram
 * for confidence. Uses preserve/restore so the wide file stays intact for the
@@ -241,6 +248,7 @@ preserve
 restore
 
 * 7. Cross-tabs worth having on hand for the presentation
+
 display _newline(2) "Cross-tabulations"
 
 * Score by affiliation (group means)

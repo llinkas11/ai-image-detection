@@ -8,13 +8,15 @@ A Bowdoin College senior project investigating whether people can reliably disti
 
 ## Headline findings
 
-From an ordered probit model on N = 419 respondents:
+Analytic sample after filtering: **N = 419** (508 starting; 74 dropped on attention checks, 10 on "Other" devices, 5 on log response-time trim). Models that include all AI-exposure predictors (m4, m5) drop 18 more on covariate missingness and report on N = 401.
 
-- **Faculty/Staff scored lower than students** (β = -0.34, p = 0.04)
-- **Mobile users scored lower than laptop users** (β = -0.25, p = 0.03)
+From the preferred ordered probit specification (m5):
+
+- **Faculty/Staff scored lower than students** (statistically significant)
+- **Mobile users scored lower than laptop users** (negative coefficient, marginal significance)
 - **Self-reported AI familiarity and weekly AI usage did not predict detection score**
 
-The significant effects are robust across 8 specifications and after controlling for gender, race, social media time, and response time.
+Direction and magnitude are robust across the eight specifications and after controlling for gender, race, social media time, and log response time. Full coefficient tables are in `results/oprobit_models.csv` and the technical appendix.
 
 ## Repository layout
 
@@ -64,6 +66,10 @@ Raw individual-level responses are not included in this repository to protect re
 ## Presentation
 
 See `presentation/ai-detection.pptx` for the final slide deck. This covers study motivation, design, analytical methods, and results.
+
+## Reproducible appendix
+
+The `appendix/` folder contains a single-command build (`bash appendix/build.sh`) that regenerates a technical appendix walking through every analytical step: filter pipeline, descriptives, exploratory analysis, model specification and progression, subsample analysis, diagnostics (parallel-regression test, VIF, on the pooled and both subsamples), margins, and count-model robustness. Output is `appendix/appendix.docx` (and `appendix.pdf` if `pdflatex` is installed). See `appendix/README.md` for build requirements.
 
 ## License
 
