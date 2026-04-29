@@ -81,6 +81,10 @@ Full diagnostic output, including the `oparallel` log and VIF table, is in the t
 
 See `presentation/ai-detection.pptx` for the final slide deck. This covers study motivation, design, analytical methods, and results.
 
+## Data cleaning
+
+The `data-cleaning/` folder is a single concise reproducible document covering the seven-step pipeline that turns the raw Qualtrics export (2 batch CSVs, 639 columns each, merged to 508 responses) into the analytic dataset (`AI_DetectionV3_lite.dta`, 61 variables). Each step has prose explanation plus a runnable script. See `data-cleaning/README.md`.
+
 ## Reproducible appendix
 
 The `appendix/` folder contains a single-command build (`bash appendix/build.sh`) that regenerates a technical appendix walking through every analytical step: filter pipeline, descriptives, exploratory analysis, model specification and progression, subsample analysis, diagnostics (parallel-regression test, VIF, on the pooled and both subsamples), margins, and count-model robustness. Output is `appendix/appendix.docx` (and `appendix.pdf` if `pdflatex` is installed). See `appendix/README.md` for build requirements.

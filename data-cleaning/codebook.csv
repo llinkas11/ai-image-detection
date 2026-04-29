@@ -1,0 +1,60 @@
+stata_name,csv_name_after_import,human_label,type,values
+start_date,startdate,Survey start timestamp,datetime,
+end_date,enddate,Survey end timestamp,datetime,
+duration_sec,duration,Total duration,seconds,integer
+recorded_date,recordeddate,Recorded timestamp (Qualtrics),datetime,
+detect_easy,aidetectionwaseasy,AI detection was easy (Likert),ordinal,1-5
+ai_literacy,ailiteracy,Self-rated AI literacy,ordinal,1-5
+ai_use_time,aiusetime,Weekly AI use,ordinal,0-5
+social_media_time,socialmediausetime,Weekly social media use,ordinal,0-4
+ai_familiarity,aifamiliarity,Self-rated AI familiarity,ordinal,1-5
+ai_course,aicourseyn,Took AI course at Bowdoin,binary,0/1
+ai_classes,aiclassestaken,Number of AI classes taken,integer,
+affiliation,affiliation,Bowdoin affiliation,nominal,1-5
+intl_student,internationalstudent,International student flag,binary,0/1
+intl_faculty,internationalfaculty,International faculty flag,binary,0/1
+age,age,Age,integer,
+gender,gender,Gender identity,nominal,1-4
+race,race,Race / ethnicity,nominal,1-7
+disability,disability,Disability self-disclosure,binary,0/1
+adhd,adhd,ADHD self-disclosure,binary or string,
+device_type,devicetype,Device type used,nominal,1-3
+device_other,deviceother,Other device free text,string,
+img_count,imgcount,Image count seen (embedded),integer,
+q1,q1,Image 1 outcome,nominal,1=TP 2=TN 3=FP 4=FN
+q1_conf,q1conf,Image 1 confidence (slider),integer,0-10
+q2,q2,Image 2 outcome,nominal,1-4
+q2_conf,q2conf,Image 2 confidence,integer,0-10
+q3,q3,Image 3 outcome,nominal,1-4
+q3_conf,q3conf,Image 3 confidence,integer,0-10
+q4,q4,Image 4 outcome,nominal,1-4
+q4_conf,q4conf,Image 4 confidence,integer,0-10
+q5,q5,Image 5 outcome,nominal,1-4
+q5_conf,q5conf,Image 5 confidence,integer,0-10
+q6,q6,Image 6 outcome,nominal,1-4
+q6_conf,q6conf,Image 6 confidence,integer,0-10
+q7,q7,Image 7 outcome,nominal,1-4
+q7_conf,q7conf,Image 7 confidence,integer,0-10
+q8,q8,Image 8 outcome,nominal,1-4
+q8_conf,q8conf,Image 8 confidence,integer,0-10
+q9,q9,Image 9 outcome,nominal,1-4
+q9_conf,q9conf,Image 9 confidence,integer,0-10
+q10,q10,Image 10 outcome,nominal,1-4
+q10_conf,q10conf,Image 10 confidence,integer,0-10
+attn_check1,attncheck1,Attention check 1 passed,binary,0/1
+attn_conf1,attnconf1,Attention check 1 confidence,integer,0-10
+attn_check2,attncheck2,Attention check 2 passed,binary,0/1
+attn_conf2,attnconf2,Attention check 2 confidence,integer,0-10
+calc_score,calculatedscore,Detection score (Python derived),integer,0-10
+score_total,score,Detection score (Qualtrics native),integer,0-10
+avg_resp_time,avganswtime,Mean per-image response time,seconds,float
+tp_count,(derived in step 07),True positives count,integer,0-10
+tn_count,(derived in step 07),True negatives count,integer,0-10
+fp_count,(derived in step 07),False positives count,integer,0-10
+fn_count,(derived in step 07),False negatives count,integer,0-10
+tp_rate,(derived in step 07),TP rate among AI images seen,float,0-1
+tn_rate,(derived in step 07),TN rate among real images seen,float,0-1
+fp_rate,(derived in step 07),FP rate,float,0-1
+fn_rate,(derived in step 07),FN rate,float,0-1
+avg_conf,(derived in step 07),Mean per-image confidence,float,0-10
+attn_both,(derived in step 07),Passed both attention checks,binary,0/1
