@@ -208,7 +208,7 @@ The five `oparallel` tests on the minimal robust spec give p > 0.30; the proport
 
 ## F.3 Student subsample (ms4 spec)
 
-Similar fallback: the full ms4 spec causes perfect prediction; dropping race resolves it. With n=343 students and the interaction-plus-affiliation-plus-social-media spec, `oparallel` runs and reports all p > 0.18 (Wald χ²(10) = 12.77, p = 0.237). The proportional-odds assumption is not rejected for the student subsample. (Output is in the same log block above; both subsamples are run consecutively by `po_subsample_tests.do`.)
+Similar fallback: the full ms4 spec causes perfect prediction; dropping race resolves it. With n=343 students and the interaction-plus-affiliation-plus-social-media spec, `oparallel` runs and reports Wald chi-squared(10) = 12.77, p = 0.237 (lowest among the five tests is LR p = 0.190). The proportional-odds assumption is not rejected for the student subsample. (Output is in the same log block above; both subsamples are run consecutively by `po_subsample_tests.do`.)
 
 ## F.4 Subsample VIFs
 

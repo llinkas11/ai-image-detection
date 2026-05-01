@@ -126,7 +126,7 @@ ms4 is the preferred student-only specification: `i.affiliation i.device_type i.
 
 | Assumption | Check |
 |---|---|
-| Parallel slopes / proportional odds | `oparallel` on a 3-level bucketed score with the ms4 predictors. The full spec causes perfect prediction (sparse race cells), so race is dropped from the test. With `i.affiliation i.device_type i.gender c.ai_familiarity##c.ai_use_time c.social_media_time`, all five tests report p > 0.95. Strongly not rejected. |
+| Parallel slopes / proportional odds | `oparallel` on a 3-level bucketed score with the ms4 predictors. The full spec causes perfect prediction (sparse race cells), so race is dropped from the test. With `i.affiliation i.device_type i.gender c.ai_familiarity##c.ai_use_time c.social_media_time`, all five tests report p > 0.18 (Wald chi-squared(10) = 12.77, p = 0.237). Not rejected. |
 | No multicollinearity | VIF on parallel OLS of the ms4 covariates within the student subsample. The structurally inflated VIFs on the interaction component variables are expected for interaction models and do not indicate a real multicollinearity problem. All other VIFs below 5. |
 
 The full diagnostic output for every scope is in the technical appendix Section F (`appendix/appendix.docx`).
