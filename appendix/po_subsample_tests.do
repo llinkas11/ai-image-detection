@@ -1,5 +1,5 @@
 * Parallel-regression assumption tests for the preferred subsample
-* specifications (faculty mf3b, student ms3c) plus VIF on each subsample.
+* specifications (faculty mf3b, student ms4) plus VIF on each subsample.
 *
 * The full predictor set causes perfect prediction in oparallel because
 * sparse race cells (Black or African American n=11; Other n=3) yield zero
@@ -30,13 +30,14 @@ run_po "mf3b: drop race + gender (final reported test)" ///
     "i.device_type c.ai_familiarity" "if over_25 == 1"
 
 
-* F.3 student subsample (ms3c: i.affiliation i.device_type i.gender i.race
-*                        c.ai_familiarity##c.ai_use_time if over_25 == 0)
+* F.3 student subsample (ms4: i.affiliation i.device_type i.gender i.race
+*                        c.ai_familiarity##c.ai_use_time c.social_media_time
+*                        if over_25 == 0)
 display _newline(2) "F.3 Student subsample"
-run_po "ms3c: full spec (with race)" ///
-    "i.affiliation i.device_type i.gender i.race c.ai_familiarity##c.ai_use_time" "if over_25 == 0"
-run_po "ms3c: drop race (final reported test)" ///
-    "i.affiliation i.device_type i.gender c.ai_familiarity##c.ai_use_time" "if over_25 == 0"
+run_po "ms4: full spec (with race)" ///
+    "i.affiliation i.device_type i.gender i.race c.ai_familiarity##c.ai_use_time c.social_media_time" "if over_25 == 0"
+run_po "ms4: drop race (final reported test)" ///
+    "i.affiliation i.device_type i.gender c.ai_familiarity##c.ai_use_time c.social_media_time" "if over_25 == 0"
 
 drop score_cat
 
@@ -49,5 +50,5 @@ quietly reg score i.device_type c.ai_familiarity i.gender i.race if over_25 == 1
 estat vif
 
 display _newline "--- Student VIF ---"
-quietly reg score i.affiliation i.device_type i.gender i.race c.ai_familiarity##c.ai_use_time if over_25 == 0
+quietly reg score i.affiliation i.device_type i.gender i.race c.ai_familiarity##c.ai_use_time c.social_media_time if over_25 == 0
 estat vif

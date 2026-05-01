@@ -86,7 +86,7 @@ Every regression uses `vce(robust)` for heteroskedasticity-consistent standard e
 | ms3a | ms1b + `c.ai_use_time` |
 | ms3b | ms1b + `c.ai_familiarity` |
 | ms3c | ms1b + `c.ai_familiarity##c.ai_use_time` |
-| ms4 | ms3c + `c.social_media_time` |
+| **ms4** | **ms3c + `c.social_media_time`** (preferred student-only specification) |
 | ms5 | ms4 + `c.ln_resp_time` |
 
 ## Ordered probit assumptions and how we checked each
@@ -120,13 +120,13 @@ Reported in the second half of `appendix/po_subsample_tests.do` and captured in 
 | Parallel slopes / proportional odds | `oparallel` on a 3-level bucketed score with the mf3b predictors. The full spec causes perfect prediction in the faculty n = 73 subsample (sparse race cells), so race and gender are dropped from the test only. With the minimal spec (`i.device_type c.ai_familiarity`), all five tests report p > 0.33. Not rejected. |
 | No multicollinearity | VIF on parallel OLS of the mf3b covariates within the faculty subsample. All VIFs comfortably below 5. |
 
-### Student subsample (ms3c spec): parallel regression and VIF
+### Student subsample (ms4 spec): parallel regression and VIF
 
-Same diagnostic block as faculty.
+ms4 is the preferred student-only specification: `i.affiliation i.device_type i.gender i.race c.ai_familiarity##c.ai_use_time c.social_media_time`. Same diagnostic block as faculty.
 
 | Assumption | Check |
 |---|---|
-| Parallel slopes / proportional odds | `oparallel` on a 3-level bucketed score with the ms3c predictors. The full spec causes perfect prediction (sparse race cells), so race is dropped from the test. With `i.affiliation i.device_type i.gender c.ai_familiarity##c.ai_use_time`, all five tests report p > 0.97. Strongly not rejected. |
-| No multicollinearity | VIF on parallel OLS of the ms3c covariates within the student subsample. The structurally inflated VIFs on the interaction component variables are expected for interaction models and do not indicate a real multicollinearity problem. All other VIFs below 5. |
+| Parallel slopes / proportional odds | `oparallel` on a 3-level bucketed score with the ms4 predictors. The full spec causes perfect prediction (sparse race cells), so race is dropped from the test. With `i.affiliation i.device_type i.gender c.ai_familiarity##c.ai_use_time c.social_media_time`, all five tests report p > 0.95. Strongly not rejected. |
+| No multicollinearity | VIF on parallel OLS of the ms4 covariates within the student subsample. The structurally inflated VIFs on the interaction component variables are expected for interaction models and do not indicate a real multicollinearity problem. All other VIFs below 5. |
 
 The full diagnostic output for every scope is in the technical appendix Section F (`appendix/appendix.docx`).

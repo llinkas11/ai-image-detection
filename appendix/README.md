@@ -39,7 +39,7 @@ Run from any directory; the script `cd`s into `appendix/` first. About 3-5 minut
 | `build.sh` | Single-command build (sync, run, compile) |
 | `run_all.do` | Stata master that calls every analysis in order |
 | `exploratory.do` | Bivariate exploratory analysis (Section C, new for this appendix) |
-| `po_subsample_tests.do` | Parallel-regression tests on faculty (mf3b) and student (ms3c) subsamples + subsample VIFs (Section F.2 - F.4) |
+| `po_subsample_tests.do` | Parallel-regression tests on faculty (mf3b) and student (ms4) subsamples + subsample VIFs (Section F.2 - F.4) |
 | `_clean_for_repo.py` | Strips em-dashes, paths, tokens from synced source files |
 | `_expand_includes.py` | Resolves `{{< include >}}` directives in `appendix.md` |
 | `_outputs/` | Build artifacts (logs, figures, tables, data); regenerated each build, gitignored |
